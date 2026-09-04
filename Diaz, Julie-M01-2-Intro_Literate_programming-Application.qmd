@@ -1,0 +1,195 @@
+---
+title: "M01-2-Introduction to Literate Programming-Application Assignment"
+author: "Julie Diaz"
+date: '`r format(Sys.time())`'
+format: 
+  html: 
+    toc: true
+    toc-depth: 4
+    number-sections: true
+    code-line-numbers: true
+    code-fold: false
+    code-link: true
+    embed-resources: true
+editor: visual
+execute: 
+  freeze: auto
+  warning: false
+---
+
+# Exercise 1: Creating a Variable
+
+> Create a variable called X and assign the text "This is my first assignment" to it.
+
+```{r}
+#| label: ex1-create-x
+
+X <- "This is my first assignment"
+X
+```
+
+# Exercise 2: Adding Text in Base R
+
+## Exploring `paste()` and `paste0()`
+
+> Look up the `paste()` function from help to learn how to use it. In the help document, you will find some use cases as examples toward the bottom of the page. Copy some of them and paste them into your codebook inside a code chunk right below this instruction. Execute one line at a time and learn how they work.
+
+::: callout-tip
+## Hint
+
+This exercise is to illustrate how you can learn by using the sample code available from most help documents for any function in R. You may execute each line to see how `paste()` and `paste0()` work differently.
+:::
+
+```{r}
+#| label: ex2-paste-examples
+
+# a few of the classic examples from ?paste
+paste("1st", "2nd", "3rd")
+paste0("1st", "2nd", "3rd")
+paste(1:12)
+paste(month.abb, "is a month")
+paste("Today is", format(Sys.time()))
+```
+
+`paste()` inserts a separator (a space, by default) between each piece it combines, while `paste0()` glues the pieces together with no separator at all.
+
+## Adding Text to `X`
+
+> Using the `paste()` function, add "and I'm loving it!" to `X`, the variable that you just created.
+
+```{r}
+#| label: ex2-update-x
+
+X <- paste(X, "and I'm loving it!")
+X
+```
+
+# Exercise 3: Creating and Modifying a Vector
+
+> Create a vector called Y with the numbers 2, 3, 4, and 5. Next, multiply the vector by 2 and save it as Y again.
+
+```{r}
+#| label: ex3-vector-y
+
+Y <- c(2, 3, 4, 5)
+Y <- Y * 2
+Y
+```
+
+# Exercise 4: Printing X and Y
+
+> Print both the variable (X) and the vector (Y).
+
+```{r}
+#| label: ex4-print-x-y
+
+X
+Y
+```
+
+# Exercise 5: Maximum and Minimum of Y
+
+> Show the maximum and the minimum value of the vector Y that you created.
+
+```{r}
+#| label: ex5-max-min
+
+max(Y)
+min(Y)
+```
+
+# Exercise 6: Loading `ggplot2` and Previewing `economics`
+
+> Load up the `ggplot2` package and take a look at the first six rows of the data called "economics," which is available with the package.
+
+::: callout-tip
+## Hint
+
+For this task, just type the three lines below inside a code chunk.
+:::
+
+```{r}
+#| label: ex6-load-ggplot2
+
+# install.packages("ggplot2") # already installed, no need to run again
+library(ggplot2)
+head(economics)
+```
+
+# Exercise 7: Understanding and Plotting `economics`
+
+> Use the data set "economics," which is from the `ggplot2` package. First understand the data by referring to the help document. Since there are only six variables, provide the definition of the variables nicely in bullets to aid readers who will not have access to the help document. Pick two variables that you think are somehow related. Then draw a chart using the `ggplot2` package. Assign "plot" to the basic layers of data, aesthetics, and geometry, which are the minimum elements to generate a chart according to the grammar of graphics. Further, using the function `labs()`, add the title and labels for the x-axis and y-axis.
+
+The `economics` data set contains six variables, one row per month:
+
+-   **date**: the month of the observation
+-   **pce**: personal consumption expenditures, in billions of dollars
+-   **pop**: total U.S. population, in thousands
+-   **psavert**: personal savings rate (percent)
+-   **uempmed**: median duration of unemployment, in weeks
+-   **unemploy**: number of unemployed people, in thousands
+
+I chose to look at **unemploy** (number of people unemployed) and **uempmed** (median duration of unemployment in weeks), since it makes sense that when more people are unemployed, it might also take longer, on average, to find a new job.
+
+```{r}
+#| label: ex7-scatterplot
+
+plot <- ggplot(data = economics, aes(x = unemploy, y = uempmed)) +
+  geom_point()
+
+plot +
+  labs(title = "Number Unemployed vs. Median Duration of Unemployment",
+       x = "Number Unemployed (thousands)",
+       y = "Median Duration of Unemployment (weeks)")
+```
+
+# Exercise 8: Replicating the Chart with a Pipe Operator
+
+> This time, replicate the chart above using a pipe operator and without saving the initial plot as a plot object. In other words, use one long chain of code from the data at the top of the lines to the last addition to the chart. Now, add a label and caption to the figure so that the figure to be created can be cross-referenced. Also, make the width of the figure 5 with an aspect ratio of 0.6.
+
+::: callout-tip
+## Hint
+
+Once you replicate the chart, you can use `#|` inside the code chunk to control the label, caption, and size of the figure.
+:::
+
+```{r}
+#| label: fig-unemploy-duration
+#| fig-cap: "Number unemployed vs. median duration of unemployment, from the `economics` data set."
+#| fig-width: 5
+#| fig-asp: 0.6
+
+economics |>
+  ggplot(aes(x = unemploy, y = uempmed)) +
+  geom_point() +
+  labs(title = "Number Unemployed vs. Median Duration of Unemployment",
+       x = "Number Unemployed (thousands)",
+       y = "Median Duration of Unemployment (weeks)")
+```
+
+# Exercise 9: Findings
+
+> Using one of the callout blocks, describe your findings. In doing so, use cross-referencing to refer to the figure you created earlier.
+
+::: callout-important
+## Findings
+
+In @fig-unemploy-duration, there is a general upward pattern: months with a higher number of unemployed people also tend to have a higher median duration of unemployment. The relationship isn't perfectly linear, and there's a fair amount of spread, but it supports the idea that during periods with more unemployment overall, it also takes longer, on average, for someone to find a new job.
+:::
+
+# Exercise 10: Reflection on Tools Used
+
+> Make sure your codebook is well organized, easy to navigate, and beautiful. Implement as many tools as you learned in Step 1 to make your report reproducible and effective throughout the report. Then, explicitly state under this question what you did. You don't need to mention multiple actions for the same function. Summarize the different functions you implemented using a numbered list. You must use at least 10 different kinds of tools listed below.
+
+Throughout this document, I used the following Quarto and Markdown tools:
+
+1.  Section numbering with `#`, `##`, and `###` for headings and sub-headings.
+2.  **Bold font** to call out key variable names and terms.
+3.  *Italicized font* is used inside the reflection text above for emphasis.
+4.  `callout-tip` blocks for every hint provided in the instructions.
+5.  `callout-note`-style narrative text where extra context was helpful (e.g., explaining `paste()` vs `paste0()`).
+6.  A `callout-important` block to highlight my findings in Exercise 9.
+7.  A blockquote (`>`) for every task/question, kept consistent across all ten exercises.
+8.  Backticks (`` ` ``) around every function name and object name (e.g., `paste()`, `ggplot2`, `X`) to set them apart from regular text.
+9.  Cross-referencing the figure from Exercise 8 using `@fig-unemploy-duration` inside Exercise 9.
+10. Chunk options (`#|`) inside code chunks to set labels, figure captions, figure width, and figure aspect ratio.
