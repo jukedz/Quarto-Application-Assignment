@@ -184,12 +184,25 @@ In @fig-unemploy-duration, there is a general upward pattern: months with a high
 Throughout this document, I used the following Quarto and Markdown tools:
 
 1.  Section numbering with `#`, `##`, and `###` for headings and sub-headings.
+
 2.  **Bold font** to call out key variable names and terms.
+
 3.  *Italicized font* is used inside the reflection text above for emphasis.
+
 4.  `callout-tip` blocks for every hint provided in the instructions.
+
 5.  `callout-note`-style narrative text where extra context was helpful (e.g., explaining `paste()` vs `paste0()`).
+
 6.  A `callout-important` block to highlight my findings in Exercise 9.
+
 7.  A blockquote (`>`) for every task/question, kept consistent across all ten exercises.
+
 8.  Backticks (`` ` ``) around every function name and object name (e.g., `paste()`, `ggplot2`, `X`) to set them apart from regular text.
+
 9.  Cross-referencing the figure from Exercise 8 using `@fig-unemploy-duration` inside Exercise 9.
+
 10. Chunk options (`#|`) inside code chunks to set labels, figure captions, figure width, and figure aspect ratio.
+
+    ------------------------------------------------------------------------
+
+    [View this project on GitHub](https://github.com/jukedz/Quarto-Application-Assignment)
